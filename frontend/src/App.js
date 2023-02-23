@@ -32,6 +32,10 @@ function App() {
     )
   }
 
+  const nomostrar = () => {
+    setAddCont(false)
+  }
+
   return (
     <div className="App">
       <div className="divMenu">
@@ -39,7 +43,7 @@ function App() {
       </div>
       
       <div className="Comps">
-        <AgregarContacto mostrar={addCont} fnomostrar={nomostrarac}/>
+        <AgregarContacto mostrar={addCont} fnomostrar={nomostrarac} nomostrar={nomostrar}/>
         <div className='container-principal'>
           <div className='card-contactos'>
             <h3 className='tituloM'>{filtroFav ? "Favoritos" : "Todos los contactos"}</h3>
