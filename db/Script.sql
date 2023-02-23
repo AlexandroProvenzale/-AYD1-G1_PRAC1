@@ -3,7 +3,7 @@ CREATE TABLE Contacto (
     Id INT PRIMARY KEY AUTO_INCREMENT,
     Nombre VARCHAR(256) NOT NULL,
     Apellido VARCHAR(256) NOT NULL,
-    Teléfono INT NOT NULL,
+    Telefono INT NOT NULL,
     Correo VARCHAR(256)
 );
 
