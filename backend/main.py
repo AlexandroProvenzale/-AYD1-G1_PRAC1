@@ -23,6 +23,7 @@ def obtener_conexion():
 def index():
     return 'BIENVENIDO A NUESTRA APLICACION' 
 
+#INTEGRACION DE RELEASE V1.0.0
 
 #CONSULTA PARA AGREGAR CONTACTOS TIPO POST
 @app.route('/agregarContacto', methods=['POST'])
