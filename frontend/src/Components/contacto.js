@@ -3,8 +3,8 @@ import '../styles/contacto.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faStar, faPhone, faAt, faPerson } from "@fortawesome/free-solid-svg-icons";
 import { faTrashCan, faStarHalfStroke } from "@fortawesome/free-regular-svg-icons";
-import { useState, useEffect } from 'react';
-
+import { useState } from 'react';
+import ModificarContacto from './ModContacto';
 import Swal from "sweetalert2";
 
 const i_trash = <FontAwesomeIcon icon={faTrashCan} />
@@ -36,11 +36,27 @@ function confirmar(){
 
 function Contacto(props){
     const [idContacto, setIdContacto] = useState({
-        Id:0
+        id_contacto:""
       });
+    const [modCont, setModCont] = useState(false);    
+
+    const mostrarAddContacts = () => {
+      setModCont(true)
+    }
+
+    const nomostrarmc = () => {
+      setModCont(false)
+      Swal.fire('Cancelado',
+      'No se modificó ningún contacto',
+      'info')
+    }
+
+    const nomostrar = () => {
+      setModCont(false)
+    }
 
     const handleClick = async (val) => {
-        idContacto.Id = parseInt(val.target.value)
+        idContacto.id_contacto = val.target.value
         console.log(JSON.stringify(idContacto))
 
         try {
@@ -77,13 +93,16 @@ function Contacto(props){
               <div className='fav-contacto'>
                   <button type="button" className="btn btn-warning btnFav">{i_starr}</button>
               </div>
-              <p className="nombre-contacto">{i_persona} {props.nombre}</p>
+              <p className="nombre-contacto">{i_persona} {props.nombre} {props.apellido}</p>
               <p className="tel-contacto">{i_telefono} {props.telefono}</p>
               <p className="correo-contacto">{i_arroba} {props.correo}</p>
               <div className='grupo-botones'>
-                  <button type="button" className="btn btn-success btnMod">{i_pencil}</button>
+                  <button type="button" className="btn btn-success btnMod" onClick={mostrarAddContacts}>{i_pencil}</button>
                   <button type="button" className="btn btn-danger btnDel" onClick={e => handleClick(e, "value")} value={props.id}>{i_trash}</button>
               </div>
+          </div>
+          <div>
+          <ModificarContacto mostrar={modCont} fnomostrar={nomostrarmc} props={props} nomostrar={nomostrar}/>
           </div>
       </div>
     );
