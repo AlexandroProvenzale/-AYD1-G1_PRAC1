@@ -24,4 +24,25 @@ BEGIN
     SELECT * FROM Contacto;
 END;
 //
+CREATE PROCEDURE SP_ModificarContacto (
+    IN idParam INT,
+    IN nombreParam VARCHAR(256),
+    IN apellidoParam VARCHAR(256),
+    IN telefonoParam INT,
+    IN correoParam VARCHAR(256)
+)
+BEGIN
+    UPDATE Contacto SET Nombre = nombreParam, Apellido = apellidoParam, Telefono = telefonoParam, Correo = correoParam
+    WHERE Id = idParam;
+    SELECT * FROM Contacto;
+END;
+//
+CREATE PROCEDURE SP_EliminarContacto (
+    IN idParam INT
+)
+BEGIN
+    DELETE FROM Contacto WHERE Id = idParam;
+    SELECT * FROM Contacto;
+END;
+//
 DELIMITER ;
