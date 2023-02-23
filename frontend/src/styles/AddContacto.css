@@ -1,0 +1,56 @@
+.sub-main{
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.form-box{
+    display: block;
+    justify-content: center;
+    height: 400px;
+    width: 80%;
+    box-shadow: 0 3px 13px 1px rgb(240 160 75 /25%);
+    padding: 40px 40px 40px 40px;
+    border-radius: 30px;
+    background-color: #0F3460;
+}
+
+.ico{
+    padding-top: 20px;
+    justify-content: center;
+    display: flex;
+    color: bisque;
+    align-items: center;
+    font-size: 2rem;
+}
+
+.ico2{
+    padding-top: 20px;
+    justify-content: center;
+    color: bisque;
+    align-items: center;
+    font-size: 2rem;
+}
+
+#addC{
+    margin: 10px;
+}
+
+.form-container {
+    display: block;
+    justify-content: center;
+    
+}
+
+.nombre-completo {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+.textos {
+    margin: 10px 10px 10px 10px;
+    border-radius: 10px;
+}
