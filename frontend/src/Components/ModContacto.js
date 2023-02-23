@@ -1,32 +1,32 @@
-import React, { useEffect } from "react";
 import '../styles/AddContacto.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAddressBook } from "@fortawesome/free-solid-svg-icons";
+import { faWandMagicSparkles, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faPhone, faAt, faPerson, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { useState } from 'react';
 import Swal from "sweetalert2";
 
-const i_trash = <FontAwesomeIcon icon={faTrashCan} />
+const i_xmark = <FontAwesomeIcon icon={faXmark} />
 const i_check = <FontAwesomeIcon icon={faCheck} />
-const i_contact = <FontAwesomeIcon icon={faAddressBook} />
+const i_contact = <FontAwesomeIcon icon={faWandMagicSparkles} />
 const i_arroba = <FontAwesomeIcon icon={faAt} className="ico2"/>
 const i_telefono = <FontAwesomeIcon icon={faPhone} className="ico2"/>
 const i_persona = <FontAwesomeIcon icon={faPerson} className="ico2"/>
 
-function AddContact({mostrar, fnomostrar, nomostrar}) {
+function ModContacto({mostrar, fnomostrar, props, nomostrar}) {
 
   const [contacto, setContacto] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
-    phone: "",
+    id_contacto: props.id.toString(),
+    firstname: props.nombre,
+    lastname: props.apellido,
+    email: props.correo,
+    phone: props.telefono.toString(),
   });
 
   const handleClick = async () => {
-
+    console.log(contacto)
     try {
-      const response = await fetch('http://localhost:5000/agregarContacto', {
+      const response = await fetch('http://localhost:5000/modificarContacto', {
         method: 'POST',
         headers: {
           'Content-Type':'application/json',
@@ -36,11 +36,16 @@ function AddContact({mostrar, fnomostrar, nomostrar}) {
       });
 
       if (!response.ok) {
+        Swal.fire(
+            "Ocurrió un problema",
+            "No fue posible modificar el contacto",
+            "error"
+          )
         throw new Error('Data coud not be fetched!')
       } else {
           Swal.fire(
-            "Agregado",
-            "Se agregó el contacto",
+            "Modificado",
+            "Se modificó el contacto",
             "success"
           )
           {nomostrar()}
@@ -59,15 +64,16 @@ function AddContact({mostrar, fnomostrar, nomostrar}) {
         <div className="form-box">
           <div className="ico">
             {i_contact}
-            <h3 id="addC">Añadir contacto</h3>
+            <h3 id="addC">Modificar contacto</h3>
           </div>
           <div className="form-container">
             {i_persona}
             <div className="nombre-completo">
               <input
                 type="text"
+                value={contacto.firstname}
                 onChange={(e) => {
-                  contacto.firstname = e.target.value;
+                    setContacto({firstname: e.target.value, lastname: contacto.lastname, email: contacto.email, phone: contacto.phone, id_contacto: contacto.id_contacto});
                 }}
                 placeholder="Nombre"
                 className="textos"
@@ -75,8 +81,9 @@ function AddContact({mostrar, fnomostrar, nomostrar}) {
               />
               <input
                 type="text"
+                value={contacto.lastname}
                 onChange={(e) => {
-                  contacto.lastname = e.target.value;
+                    setContacto({lastname: e.target.value, firstname: contacto.firstname, email: contacto.email, phone: contacto.phone, id_contacto: contacto.id_contacto});
                 }}
                 placeholder="Apellido"
                 className="textos"
@@ -88,8 +95,9 @@ function AddContact({mostrar, fnomostrar, nomostrar}) {
                 {i_telefono}
                 <input
                   type="text"
+                  value={contacto.phone}
                   onChange={(e) => {
-                    contacto.phone = e.target.value;
+                    setContacto({phone: e.target.value, lastname: contacto.lastname, email: contacto.email, firstname: contacto.firstname, id_contacto: contacto.id_contacto});
                   }}
                   placeholder="Número"
                   className="textos"
@@ -100,8 +108,9 @@ function AddContact({mostrar, fnomostrar, nomostrar}) {
                 {i_arroba}
                 <input
                   type="email"
+                  value={contacto.email}
                   onChange={(e) => {
-                    contacto.email = e.target.value;
+                    setContacto({email: e.target.value, lastname: contacto.lastname, firstname: contacto.firstname, phone: contacto.phone, id_contacto: contacto.id_contacto});
                   }}
                   placeholder="Correo electrónico"
                   className="textos"
@@ -110,8 +119,8 @@ function AddContact({mostrar, fnomostrar, nomostrar}) {
               </div>
             </div>
             <div className='grupo-botones'>
-                  <button type="button" className="btn btn-success btnMod" onClick={handleClick}>{i_check}</button>
-                  <button type="button" className="btn btn-danger btnDel" onClick={fnomostrar}>{i_trash}</button>
+                  <button type="button" className="btn btn-success btnMod" onClick={handleClick}>{i_check} Modificar</button>
+                  <button type="button" className="btn btn-danger btnDel" onClick={fnomostrar}>{i_xmark} Cancelar</button>
               </div>
           </div>
         </div>
@@ -120,4 +129,4 @@ function AddContact({mostrar, fnomostrar, nomostrar}) {
   }
 };
 
-export default AddContact;
+export default ModContacto;
