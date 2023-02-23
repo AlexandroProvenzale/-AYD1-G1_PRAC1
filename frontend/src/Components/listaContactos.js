@@ -16,7 +16,7 @@ function ListaContactos({mostrar}) {
                 return response.json()
             }
         }else{
-            const response = await fetch('http://localhost:5000/todosContactos', {
+            const response = await fetch('http://localhost:5000/listarContactos', {
                 'Content-Type':'application/json',
                 'Access-Control-Allow-Origin':'*',
             })
@@ -31,7 +31,7 @@ function ListaContactos({mostrar}) {
     useEffect(() => {
         fetchContactos()
         .then((res) => {
-            initContact(res.Respuesta)
+            initContact(res)
         })
         .catch((e) => {
             console.log(e.message)
@@ -40,9 +40,9 @@ function ListaContactos({mostrar}) {
 
     return(        
         contact.map((item, idx) => {
+            console.log(item)
             return (
-                
-                <Contacto key={idx} id={item.id} nombre={item.nombre} telefono={item.telefono} correo={item.correo} />
+                <Contacto key={idx} id={item.Id} nombre={item.Nombre} telefono={item.Telefono} correo={item.Correo} />
             )
         })
     );
