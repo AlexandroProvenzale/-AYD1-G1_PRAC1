@@ -4,7 +4,8 @@ CREATE TABLE Contacto (
     Nombre VARCHAR(256) NOT NULL,
     Apellido VARCHAR(256) NOT NULL,
     Telefono INT NOT NULL,
-    Correo VARCHAR(256)
+    Correo VARCHAR(256),
+    Favoritos BIT DEFAULT b'0'
 );
 
 DELIMITER //
@@ -43,6 +44,26 @@ CREATE PROCEDURE SP_EliminarContacto (
 BEGIN
     DELETE FROM Contacto WHERE Id = idParam;
     SELECT * FROM Contacto;
+END;
+//
+DELIMITER //
+CREATE PROCEDURE SP_AgregarFavorito (
+    IN idContactoParam INT
+)
+BEGIN
+    UPDATE Contacto SET Favoritos = b'1' WHERE Id = idContactoParam;
+END;
+//
+CREATE PROCEDURE SP_EliminarFavorito (
+    IN idContactoParam INT
+)
+BEGIN
+    UPDATE Contacto SET Favoritos = b'0' WHERE Id = idContactoParam;
+END;
+//
+CREATE PROCEDURE SP_FavoritosContactos ()
+BEGIN
+    SELECT * FROM Contacto WHERE Favoritos = b'1';
 END;
 //
 DELIMITER ;
