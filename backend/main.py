@@ -62,6 +62,44 @@ def ListarContactos():
 
 
 
+#CONSULTA PARA ELIMINAR CONTACTOS TIPO DELETE
+@app.route('/eliminarContacto', methods=['DELETE'])
+def EliminarContacto():
+    try: 
+        conn = mysql.connect()
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        arg2 = (request.json["id_contacto"])
+        print(arg2)
+        cursor.callproc('SP_EliminarContacto', arg2)
+        cursor.connection.commit()
+        response = jsonify({'mensaje':"El registro fue eliminado exitosamente."})
+        return response
+    except Exception as ex:
+        return jsonify({"mensaje": "Error"})
+    finally:
+        cursor.close()
+        conn.close()
+
+        
+#CONSULTA PARA MODIFICAR CONTACTOS TIPO POST
+@app.route('/modificarContacto', methods=['POST'])
+def ModificarContacto():
+    try: 
+        conn = mysql.connect()
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        arg2 = (request.json["id_contacto"], request.json["firstname"], request.json["lastname"],request.json["phone"],request.json["email"])
+        cursor.callproc('SP_ModificarContacto', arg2)
+        cursor.connection.commit()
+        response = jsonify({'mensaje':"El registro del contacto fue modificado fue exitoso."})
+        return response
+    except Exception as ex:
+        return jsonify({"mensaje": "Error"})
+    finally:
+        cursor.close()
+        conn.close()
+
+
+
 def pagina_no_encontrada(error):
     return "404. Endpoint no encontrado", 404
 
