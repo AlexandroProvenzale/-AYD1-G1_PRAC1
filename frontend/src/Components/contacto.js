@@ -158,6 +158,7 @@ function Contacto(props) {
           <button type="button" className="btn btn-danger btnDel" onClick={e => handleClick(e, "value")} value={props.id}>{i_trash}</button>
         </div>
       </div>
+      <img src={props.proveedor === 0 ? "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Claro.svg/1200px-Claro.svg.png " : "https://s3.amazonaws.com/media.greatplacetowork.com/images/2018-latam/logo-tigo.png"} className="img-proveedor" />
       <div>
         <ModificarContacto mostrar={modCont} fnomostrar={nomostrarmc} props={props} nomostrar={nomostrar} />
       </div>

@@ -18,6 +18,11 @@
     padding: 10px;
 }
 
+.img-proveedor {
+    height: 10%;
+    width: auto;
+}
+
 .datos-contacto{
     text-align: left;
     padding: 40px;
