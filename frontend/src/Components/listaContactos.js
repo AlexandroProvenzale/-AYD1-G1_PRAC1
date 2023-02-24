@@ -40,9 +40,8 @@ function ListaContactos({mostrar}) {
 
     return(        
         contact.map((item, idx) => {
-            console.log(item)
             return (
-                <Contacto key={idx} id={item.Id} nombre={item.Nombre} apellido={item.Apellido} telefono={item.Telefono} correo={item.Correo} />
+                <Contacto key={idx} id={item.Id} nombre={item.Nombre} apellido={item.Apellido} telefono={item.Telefono} correo={item.Correo} favorito={item.Favoritos}/>
             )
         })
     );
