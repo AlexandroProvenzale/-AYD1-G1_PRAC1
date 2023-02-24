@@ -25,6 +25,7 @@ def index():
 
 #INTEGRACION DE RELEASE V1.0.0
 #INTEGRACION DE RELEASE V1.1.0
+#INTEGRACION DE RELEASE V2.0.0
 
 #CONSULTA PARA AGREGAR CONTACTOS TIPO POST
 @app.route('/agregarContacto', methods=['POST'])
@@ -98,6 +99,80 @@ def ModificarContacto():
     finally:
         cursor.close()
         conn.close()
+
+
+#CONSULTA PARA MOSTTRAR LOS CONTACTOS FAVORITOS TIPO GET
+@app.route('/favoritosContactos', methods=['GET'])
+def FavoritosContactos():
+    try: 
+        conn = mysql.connect()
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        cursor.callproc('SP_FavoritosContactos')
+        datos = cursor.fetchall()
+        response = jsonify(datos)
+        return response
+    except Exception as ex:
+        return jsonify({"mensaje": "Error"})
+    finally:
+        cursor.close()
+        conn.close()
+
+        
+#CONSULTA PARA AGREGAR CONTACTO A FAVORITOS TIPO POST
+@app.route('/agregarFavorito', methods=['POST'])
+def AgregarFavorito():
+    try: 
+        conn = mysql.connect()
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        arg2 = (request.json["id_contacto"])
+        cursor.callproc('SP_AgregarFavorito', arg2)
+        cursor.connection.commit()
+        response = jsonify({'mensaje':"El registro fue agregado a favoritos exitosamente."})
+        return response
+    except Exception as ex:
+        return jsonify({"mensaje": "Error"})
+    finally:
+        cursor.close()
+        conn.close()
+
+        
+        
+#CONSULTA PARA ELIMINAR CONTACTO DE FAVORITO TIPO POST
+@app.route('/eliminarFavorito', methods=['POST'])
+def EliminarFavorito():
+    try: 
+        conn = mysql.connect()
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        arg2 = (request.json["id_contacto"])
+        cursor.callproc('SP_EliminarFavorito', arg2)
+        cursor.connection.commit()
+        response = jsonify({'mensaje':"El registro fue eliminado de favoritos exitosamente."})
+        return response
+    except Exception as ex:
+        return jsonify({"mensaje": "Error"})
+    finally:
+        cursor.close()
+        conn.close()
+
+
+#CONSULTA PARA AGREGAR CONTACTOS TIPO POST
+@app.route('/buscarContacto', methods=['POST'])
+def buscarContacto():
+    try: 
+        conn = mysql.connect()
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        arg2 = (request.json["nombre"],)
+        print(arg2)
+        cursor.callproc('SP_buscar',arg2)
+        datos = cursor.fetchall()
+        response = jsonify(datos)
+        return response
+    except Exception as ex:
+        print( jsonify({"mensaje": "Error"}))
+    finally:
+        cursor.close()
+        conn.close()
+
 
 
 
