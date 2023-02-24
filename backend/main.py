@@ -153,6 +153,28 @@ def EliminarFavorito():
         cursor.close()
         conn.close()
 
+
+#CONSULTA PARA AGREGAR CONTACTOS TIPO POST
+@app.route('/buscarContacto', methods=['POST'])
+def buscarContacto():
+    try: 
+        conn = mysql.connect()
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        arg2 = (request.json["nombre"],)
+        print(arg2)
+        cursor.callproc('SP_buscar',arg2)
+        datos = cursor.fetchall()
+        response = jsonify(datos)
+        return response
+    except Exception as ex:
+        print( jsonify({"mensaje": "Error"}))
+    finally:
+        cursor.close()
+        conn.close()
+
+
+
+
 def pagina_no_encontrada(error):
     return "404. Endpoint no encontrado", 404
 

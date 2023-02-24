@@ -66,4 +66,16 @@ BEGIN
     SELECT * FROM Contacto WHERE Favoritos = b'1';
 END;
 //
+DELIMITER //
+CREATE PROCEDURE SP_buscar (
+	IN n VARCHAR(256)
+)
+BEGIN 
+	SELECT *
+	FROM Contacto
+	WHERE  Nombre = n;
+END;
+//
+
+
 DELIMITER ;
