@@ -100,6 +100,58 @@ def ModificarContacto():
         conn.close()
 
 
+#CONSULTA PARA MOSTTRAR LOS CONTACTOS FAVORITOS TIPO GET
+@app.route('/favoritosContactos', methods=['GET'])
+def FavoritosContactos():
+    try: 
+        conn = mysql.connect()
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        cursor.callproc('SP_FavoritosContactos')
+        datos = cursor.fetchall()
+        response = jsonify(datos)
+        return response
+    except Exception as ex:
+        return jsonify({"mensaje": "Error"})
+    finally:
+        cursor.close()
+        conn.close()
+
+        
+#CONSULTA PARA AGREGAR CONTACTO A FAVORITOS TIPO POST
+@app.route('/agregarFavorito', methods=['POST'])
+def AgregarFavorito():
+    try: 
+        conn = mysql.connect()
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        arg2 = (request.json["id_contacto"])
+        cursor.callproc('SP_AgregarFavorito', arg2)
+        cursor.connection.commit()
+        response = jsonify({'mensaje':"El registro fue agregado a favoritos exitosamente."})
+        return response
+    except Exception as ex:
+        return jsonify({"mensaje": "Error"})
+    finally:
+        cursor.close()
+        conn.close()
+
+        
+        
+#CONSULTA PARA ELIMINAR CONTACTO DE FAVORITO TIPO POST
+@app.route('/eliminarFavorito', methods=['POST'])
+def EliminarFavorito():
+    try: 
+        conn = mysql.connect()
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        arg2 = (request.json["id_contacto"])
+        cursor.callproc('SP_EliminarFavorito', arg2)
+        cursor.connection.commit()
+        response = jsonify({'mensaje':"El registro fue eliminado de favoritos exitosamente."})
+        return response
+    except Exception as ex:
+        return jsonify({"mensaje": "Error"})
+    finally:
+        cursor.close()
+        conn.close()
 
 def pagina_no_encontrada(error):
     return "404. Endpoint no encontrado", 404
